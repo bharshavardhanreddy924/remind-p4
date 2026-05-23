@@ -33,28 +33,26 @@
         
         <!-- Task List -->
         {% if tasks %}
-            <div class="list-group">
+            <div class="list-group list-group-flush">
                 {% for task in tasks %}
-                    <div class="list-group-item task-item {% if task.completed %}completed{% endif %}">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <form method="POST" action="{{ url_for('tasks') }}" class="me-3">
-                                    <input type="hidden" name="action" value="update">
-                                    <input type="hidden" name="task_index" value="{{ loop.index0 }}">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="completed" onchange="this.form.submit()" {% if task.completed %}checked{% endif %}>
-                                    </div>
-                                </form>
-                                <span class="task-text">{{ task.text }}</span>
-                            </div>
-                            <form method="POST" action="{{ url_for('tasks') }}">
-                                <input type="hidden" name="action" value="delete">
+                    <div class="list-group-item task-item {% if task.completed %}completed{% endif %} border-0 p-3 mb-3 shadow-sm rounded-4 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <form method="POST" action="{{ url_for('tasks') }}" class="m-0 me-3">
+                                <input type="hidden" name="action" value="update">
                                 <input type="hidden" name="task_index" value="{{ loop.index0 }}">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                <div class="form-check m-0">
+                                    <input class="form-check-input" type="checkbox" name="completed" style="width: 28px; height: 28px; margin-top: 0; cursor: pointer;" onchange="this.form.submit()" {% if task.completed %}checked{% endif %}>
+                                </div>
                             </form>
+                            <span class="task-text fs-5 {% if task.completed %}text-muted{% endif %}">{{ task.text }}</span>
                         </div>
+                        <form method="POST" action="{{ url_for('tasks') }}" class="m-0 ms-2">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+                            <button type="submit" class="btn btn-outline-danger border-0 rounded-circle" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background-color: rgba(220,53,69,0.1);">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
                     </div>
                 {% endfor %}
             </div>
