@@ -710,9 +710,17 @@ a {
     }
     
     /* Forms - prevent zoom on iOS */
-    input, select, textarea, .form-control {
+    input:not(.ps-5), select, textarea, .form-control:not(.ps-5) {
         font-size: 16px !important;
         padding: 12px !important;
+        border-radius: 10px !important;
+    }
+    input.ps-5, .form-control.ps-5 {
+        font-size: 16px !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+        padding-right: 12px !important;
+        padding-left: 2.8rem !important; /* Ensure icon has space */
         border-radius: 10px !important;
     }
     
