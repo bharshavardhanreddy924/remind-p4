@@ -14,14 +14,37 @@
         background: transparent;
         border: none;
     }
-    .custom-pills .nav-link:hover {
-        background: rgba(0,0,0,0.04);
+    .tab-card {
+        background: white;
+        border: 2px solid transparent;
+        border-radius: 20px;
+        padding: 24px 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        color: var(--dark-color);
+        height: 100%;
     }
-    .custom-pills .nav-link.active {
-        background-color: white !important;
-        color: var(--primary-color) !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        font-weight: 600;
+    .tab-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    .tab-card.active {
+        border-color: var(--primary-color);
+        background: rgba(99, 102, 241, 0.03);
+    }
+    .tab-card i {
+        font-size: 2.2rem;
+        margin-bottom: 16px;
+        display: block;
+    }
+    .tab-card h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
     }
     .task-item-modern {
         background: white;
@@ -49,50 +72,57 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12 mb-4">
-        <div class="card border-0 shadow-sm" style="border-radius: 20px;">
-            <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
-                <ul class="nav custom-pills" id="patientTabs" role="tablist" style="background: #f4f5f7; padding: 6px; border-radius: 16px; display: inline-flex; overflow-x: auto; flex-wrap: nowrap; max-width: 100%;">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
-                            <i class="fas fa-info-circle me-2 text-muted"></i> Personal Info
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab" aria-controls="tasks" aria-selected="false">
-                            <i class="fas fa-tasks me-2 text-muted"></i> Tasks
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="medications-tab" data-bs-toggle="tab" data-bs-target="#medications" type="button" role="tab" aria-controls="medications" aria-selected="false">
-                            <i class="fas fa-pills me-2 text-muted"></i> Medications
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab" aria-controls="notes" aria-selected="false">
-                            <i class="far fa-sticky-note me-2 text-muted"></i> Notes
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="progress-tab" data-bs-toggle="tab" data-bs-target="#progress" type="button" role="tab" aria-controls="progress" aria-selected="false">
-                            <i class="fas fa-chart-line me-2 text-muted"></i> Progress & MMSE
-                        </button>
-                    </li>
-                </ul>
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="nav row g-3" id="patientTabs" role="tablist">
+            <div class="col-6 col-md-4 col-lg-2">
+                <button class="tab-card active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
+                    <i class="fas fa-info-circle" style="color: #6366f1;"></i>
+                    <h3>Info</h3>
+                </button>
             </div>
-            <div class="card-body p-4 pt-4 mt-2">
+            <div class="col-6 col-md-4 col-lg-2">
+                <button class="tab-card" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab" aria-controls="tasks" aria-selected="false">
+                    <i class="fas fa-tasks" style="color: #20c997;"></i>
+                    <h3>Tasks</h3>
+                </button>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <button class="tab-card" id="medications-tab" data-bs-toggle="tab" data-bs-target="#medications" type="button" role="tab" aria-controls="medications" aria-selected="false">
+                    <i class="fas fa-pills" style="color: #fd7e14;"></i>
+                    <h3>Medications</h3>
+                </button>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <button class="tab-card" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab" aria-controls="notes" aria-selected="false">
+                    <i class="fas fa-sticky-note" style="color: #f5365c;"></i>
+                    <h3>Clinical Notes</h3>
+                </button>
+            </div>
+            <div class="col-12 col-md-8 col-lg-3">
+                <button class="tab-card" id="progress-tab" data-bs-toggle="tab" data-bs-target="#progress" type="button" role="tab" aria-controls="progress" aria-selected="false">
+                    <i class="fas fa-chart-line" style="color: #11cdef;"></i>
+                    <h3>Progress & MMSE</h3>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 mb-5">
+        <div class="card border-0 shadow-sm" style="border-radius: 24px;">
+            <div class="card-body p-4 p-md-5">
                 <div class="tab-content" id="patientTabContent">
                     <!-- Personal Info Tab -->
                     <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
                         <div class="mb-4">
                             <h4 class="fw-bold mb-2">Personal Information</h4>
-                            <p class="text-muted">Update the patient's personal information to improve AI Assistant responses and personalized care.</p>
                         </div>
                         
                         <form action="{{ url_for('update_patient_info', patient_id=patient._id) }}" method="POST">
                             <div class="mb-4">
-                                <textarea class="form-control p-4 fs-5" id="personal_info" name="personal_info" rows="5" placeholder="I am a person who needs memory care assistance. Include details like birth date, family members, hobbies, preferred routines, and important memories." style="border-radius: 16px; border: 1px solid #eaeaea; background: #fafafa; min-height: 150px; resize: none;">{{ patient.personal_info }}</textarea>
+                                <textarea class="form-control p-4 fs-5" id="personal_info" name="personal_info" rows="5" placeholder="Enter personal information..." style="border-radius: 16px; border: 1px solid #eaeaea; background: #fafafa; min-height: 150px; resize: none;">{{ patient.personal_info }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
                                 <i class="fas fa-save me-2"></i> Save Information
@@ -205,7 +235,7 @@
                         
                         <form action="{{ url_for('update_patient_notes', patient_id=patient._id) }}" method="POST">
                             <div class="mb-4">
-                                <textarea class="form-control p-4 fs-5" id="content" name="content" rows="10" placeholder="Enter clinical notes, observations, and care updates about the patient..." style="border-radius: 16px; border: 1px solid #eaeaea; background: #fafafa; min-height: 250px; resize: none;">{{ notes_content }}</textarea>
+                                <textarea class="form-control p-4 fs-5" id="content" name="content" rows="10" placeholder="Enter clinical notes..." style="border-radius: 16px; border: 1px solid #eaeaea; background: #fafafa; min-height: 250px; resize: none;">{{ notes_content }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
                                 <i class="fas fa-save me-2"></i> Save Notes

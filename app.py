@@ -21,9 +21,9 @@ except ImportError as e:
 
 # Load environment variables from .env file
 load_dotenv()
-print("🔧 Loading environment variables...")
-print(f"✅ GROQ_API_KEY loaded: {'Yes' if os.getenv('GROQ_API_KEY') else 'No'}")
-print(f"✅ MONGO_URI loaded: {'Yes' if os.getenv('MONGO_URI') else 'No'}")
+print("Loading environment variables...")
+print(f"GROQ_API_KEY loaded: {'Yes' if os.getenv('GROQ_API_KEY') else 'No'}")
+print(f"MONGO_URI loaded: {'Yes' if os.getenv('MONGO_URI') else 'No'}")
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -39,6 +39,12 @@ def add_pwa_headers(response):
     response.headers['X-XSS-Protection'] = '1; mode=block'
     response.headers['Referrer-Policy'] = 'no-referrer-when-downgrade'
     response.headers['Permissions-Policy'] = 'geolocation=(), camera=()'
+    
+    # Disable browser caching so logged-out users can't click "back" into auth pages
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    
     return response
 
 # Offline fallback page
@@ -50,16 +56,16 @@ def offline():
 from pymongo.mongo_client import MongoClient
 # Use environment variable or fallback to hardcoded URI
 uri = os.getenv('MONGO_URI', "mongodb+srv://bharshavardhanreddy924:516474Ta@data-dine.5oghq.mongodb.net/?retryWrites=true&w=majority&ssl=true")
-print(f"🔗 Connecting to MongoDB...")
+print(f"Connecting to MongoDB...")
 
 try:
     client = MongoClient(uri, tlsCAFile=certifi.where())
     # Send a ping to confirm a successful connection
     client.admin.command('ping')
-    print("✅ Pinged your deployment. You successfully connected to MongoDB!")
+    print("Pinged your deployment. You successfully connected to MongoDB!")
     db = client['memorycare_db']
 except Exception as e:
-    print(f"❌ MongoDB Connection Error: {e}")
+    print(f"MongoDB Connection Error: {e}")
     db = None  # Prevent application crashes
 
 # File Upload Configuration
@@ -711,10 +717,10 @@ Extract now:"""
                     "updated_at": datetime.now()
                 })
             
-            print(f"✅ Extracted and stored: {extracted_info[:50]}...")
+            print(f"Extracted and stored: {extracted_info[:50]}...")
     
     except Exception as e:
-        print(f"⚠️ Error extracting information: {e}")
+        print(f"Error extracting information: {e}")
         # Don't fail the main conversation if extraction fails
 
 def generate_contextual_response(user_message, context, user, conversation_history=None, is_storing=False):
@@ -723,10 +729,10 @@ def generate_contextual_response(user_message, context, user, conversation_histo
         # Initialize Groq client
         groq_api_key = os.getenv('GROQ_API_KEY')
         if not groq_api_key:
-            print("⚠️ GROQ_API_KEY not found - falling back to basic responses")
+            print("GROQ_API_KEY not found - falling back to basic responses")
             return generate_fallback_response(user_message, context, user)
         
-        print(f"✅ Using Groq API with key: {groq_api_key[:20]}...")
+        print(f"Using Groq API with key: {groq_api_key[:20]}...")
         client = Groq(api_key=groq_api_key)
         
         # Build system prompt with user context
@@ -785,11 +791,11 @@ REMEMBER: Be helpful, not chatty. Answer directly and move on.
         )
         
         response = chat_completion.choices[0].message.content
-        print(f"✅ Groq response generated successfully")
+        print(f"Groq response generated successfully")
         return response.strip()
         
     except Exception as e:
-        print(f"❌ Groq API Error: {e}")
+        print(f"Groq API Error: {e}")
         print(f"Error type: {type(e).__name__}")
         import traceback
         traceback.print_exc()
