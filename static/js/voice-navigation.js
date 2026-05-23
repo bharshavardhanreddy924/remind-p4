@@ -149,8 +149,9 @@ class VoiceNavigationSystem {
 
 // Initialize voice navigation when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    // Only initialize if user is logged in
-    if (document.body.dataset.userLoggedIn === 'true') {
+    // Only initialize if user is logged in and NOT on the ai_assistant page
+    const isAiAssistantPage = window.location.pathname.includes('/ai_assistant');
+    if (document.body.dataset.userLoggedIn === 'true' && !isAiAssistantPage) {
         window.voiceNav = new VoiceNavigationSystem();
         console.log('✅ Voice Navigation System initialized');
     }
