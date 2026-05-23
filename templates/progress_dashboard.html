@@ -286,17 +286,17 @@
                 <div class="timeline-item">
                     <div class="timeline-marker">{{ loop.revindex }}</div>
                     <div class="timeline-content">
-                        <div class="d-flex justify-content-between align-items-start">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
                             <div>
                                 <h5>Assessment #{{ loop.revindex }}</h5>
-                                <p class="text-muted mb-2">
+                                <p class="text-muted mb-2" style="font-size: 0.9rem;">
                                     <i class="fas fa-calendar"></i> 
                                     {{ assessment.assessment_date.strftime('%B %d, %Y at %I:%M %p') }}
                                 </p>
                             </div>
-                            <div class="text-end">
-                                <div class="stat-value" style="font-size: 2rem;">{{ assessment.severity_score }}</div>
-                                <span class="badge bg-{% if assessment.severity_level == 'Mild' %}success{% elif assessment.severity_level == 'Moderate' %}warning{% else %}danger{% endif %}">
+                            <div class="text-md-end text-start mt-2 mt-md-0 ms-auto">
+                                <div class="stat-value m-0" style="font-size: 1.8rem; line-height: 1;">{{ assessment.severity_score|round(2) }}</div>
+                                <span class="badge bg-{% if assessment.severity_level == 'Mild' %}success{% elif assessment.severity_level == 'Moderate' %}warning{% else %}danger{% endif %} mt-1">
                                     {{ assessment.severity_level }}
                                 </span>
                             </div>
@@ -325,30 +325,32 @@
         {% if mmse_history %}
         <div class="chart-card">
             <h4><i class="fas fa-brain"></i> MMSE Score History</h4>
-            <table class="score-history-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Total Score</th>
-                        <th>Orientation</th>
-                        <th>Memory</th>
-                        <th>Attention</th>
-                        <th>Language</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for mmse in mmse_history|reverse %}
-                    <tr>
-                        <td>{{ mmse.test_date.strftime('%b %d, %Y') }}</td>
-                        <td><strong>{{ mmse.total_score }}/30</strong></td>
-                        <td>{{ mmse.time_score + mmse.place_score }}/10</td>
-                        <td>{{ mmse.registration_score + mmse.recall_score }}/6</td>
-                        <td>{{ mmse.attention_score }}/5</td>
-                        <td>{{ mmse.language_score }}/8</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="score-history-table table table-borderless align-middle" style="min-width: 500px;">
+                    <thead class="border-bottom">
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Score</th>
+                            <th>Orientation</th>
+                            <th>Memory</th>
+                            <th>Attention</th>
+                            <th>Language</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mmse in mmse_history|reverse %}
+                        <tr>
+                            <td class="text-nowrap">{{ mmse.test_date.strftime('%b %d, %Y') }}</td>
+                            <td><strong>{{ mmse.total_score }}/30</strong></td>
+                            <td>{{ mmse.time_score + mmse.place_score }}/10</td>
+                            <td>{{ mmse.registration_score + mmse.recall_score }}/6</td>
+                            <td>{{ mmse.attention_score }}/5</td>
+                            <td>{{ mmse.language_score }}/8</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
         {% endif %}
         

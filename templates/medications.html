@@ -54,10 +54,10 @@
                                 <h5 class="card-title mb-1">{{ med.name }}</h5>
                                 <p class="card-text text-muted">{{ med.time }}</p>
                             </div>
-                            <form method="POST" action="{{ url_for('medications') }}">
+                            <form method="POST" action="{{ url_for('medications') }}" class="m-0">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="med_id" value="{{ med.id }}">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <button type="submit" class="btn btn-outline-danger rounded-circle p-0" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>

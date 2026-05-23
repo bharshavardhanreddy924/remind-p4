@@ -2,6 +2,35 @@
 
 {% block title %}AI Assistant{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Maximize chat space on mobile */
+    footer { display: none !important; }
+    
+    @media (max-width: 767px) {
+        body {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        .container.mt-4 {
+            margin-top: 0 !important;
+            padding: 0 !important;
+            max-width: 100%;
+        }
+        .ai-assistant-container {
+            height: calc(100dvh - 60px);
+            margin: 0;
+            border-radius: 0;
+        }
+        .ai-header {
+            padding-top: calc(10px + env(safe-area-inset-top));
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="ai-assistant-container">
     <div class="ai-header">
