@@ -10,16 +10,23 @@
     }
     
     .onboarding-card {
-        background: white;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        background: var(--card-bg, white);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: var(--shadow-md, 0 4px 6px rgba(0,0,0,0.1));
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    @media (min-width: 768px) {
+        .onboarding-card {
+            padding: 40px;
+        }
     }
     
     .form-section {
-        margin-bottom: 30px;
-        padding-bottom: 30px;
-        border-bottom: 2px solid #f0f0f0;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f0f0f0;
     }
     
     .form-section:last-child {
@@ -183,7 +190,7 @@
                     
                     <div class="mb-3">
                         <label for="medical_notes" class="form-label">Additional Medical Information</label>
-                        <textarea class="form-control" id="medical_notes" name="medical_notes" rows="4" 
+                        <textarea class="form-control" id="medical_notes" name="medical_notes" rows="2" 
                                   placeholder="Any relevant medical history, current medications, or concerns..."></textarea>
                         <div class="info-text">This information helps in providing personalized care recommendations</div>
                     </div>
