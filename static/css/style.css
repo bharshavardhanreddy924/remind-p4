@@ -1,23 +1,27 @@
 /* Main Styles for MemoryCare Application */
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-    --primary-color: #4E7ADC; /* Slightly vibrant base */
-    --primary-color-dark: #3a5bb0;
-    --secondary-color: #7749F8;
-    --success-color: #10B981; /* Modern green */
-    --info-color: #0EA5E9; /* Modern blue */
-    --warning-color: #F59E0B; /* Modern amber */
-    --danger-color: #EF4444; /* Modern red */
-    --light-color: #F9FAFB;
-    --dark-color: #1F2937;
-    --card-bg: #ffffff;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --primary-color: #6366F1; /* Modern Indigo */
+    --primary-color-dark: #4F46E5;
+    --secondary-color: #8B5CF6; /* Soft Violet */
+    --success-color: #10B981;
+    --info-color: #0EA5E9;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --light-color: #F8FAFC; /* Softer bluish white */
+    --dark-color: #0F172A; /* Slate dark */
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    --shadow-glow: 0 8px 20px rgba(99, 102, 241, 0.25);
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    letter-spacing: -0.01em; /* Modern tracking */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -96,10 +100,11 @@ a {
 
 /* Buttons */
 .btn {
-    border-radius: 12px;
-    padding: 12px 20px;
+    border-radius: 50rem;
+    padding: 12px 24px;
     font-weight: 600;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.02em;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -111,14 +116,16 @@ a {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(78, 122, 220, 0.3);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+    border: none;
+    color: white;
+    box-shadow: var(--shadow-glow);
 }
 
 .btn-primary:hover {
-    background-color: #3a65c0;
-    border-color: #3a65c0;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(99, 102, 241, 0.35);
+    color: white;
 }
 
 .btn-secondary {
@@ -151,8 +158,11 @@ a {
 /* Navbar */
 .navbar {
     padding: 12px 0;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.4);
 }
 
 .navbar-brand {
@@ -183,18 +193,19 @@ a {
 /* Dashboard cards */
 .feature-card {
     height: 120px;
-    border-radius: 16px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-md);
     margin-bottom: 16px;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .feature-card::before {
@@ -217,37 +228,48 @@ a {
     transform: scale(0.98);
 }
 
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
 .feature-card i {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     margin-bottom: 8px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover i {
+    transform: scale(1.1);
 }
 
 .feature-card h3 {
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    letter-spacing: 0.01em;
 }
 
 .feature-card.tasks {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    background: linear-gradient(135deg, #818CF8 0%, #4F46E5 100%);
 }
 
 .feature-card.medications {
-    background: linear-gradient(135deg, #007adf 0%, #00ecbc 100%);
+    background: linear-gradient(135deg, #34D399 0%, #059669 100%);
 }
 
 .feature-card.memory {
-    background: linear-gradient(135deg, #b721ff 0%, #21d4fd 100%);
+    background: linear-gradient(135deg, #F472B6 0%, #DB2777 100%);
 }
 
 .feature-card.notes {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    background: linear-gradient(135deg, #FBBF24 0%, #D97706 100%);
 }
 
 .feature-card.ai {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
 }
 
 /* Task list items */
@@ -332,7 +354,7 @@ a {
 }
 
 .auth-header {
-    background: linear-gradient(135deg, #4E7ADC 0%, #7749F8 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
     color: white;
     padding: 30px;
     text-align: center;
@@ -1356,13 +1378,13 @@ body.ui-assisted .chat-input small {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #4E7ADC 0%, #7749F8 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
     border: none;
-    box-shadow: 0 4px 16px rgba(78, 122, 220, 0.4);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
     cursor: pointer;
     z-index: 9999;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;

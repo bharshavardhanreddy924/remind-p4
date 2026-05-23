@@ -21,23 +21,31 @@
     </div>
     <div class="card-body">
         <!-- Add Medication Form -->
-        <form method="POST" action="{{ url_for('medications') }}" class="mb-4">
+        <form method="POST" action="{{ url_for('medications') }}" class="mb-5">
             <input type="hidden" name="action" value="add">
-            <div class="row g-3">
+            <div class="row g-3 align-items-start">
                 <div class="col-md-5">
-                    <input type="text" class="form-control" name="med_name" placeholder="Medication name" required>
+                    <div class="position-relative">
+                        <span class="position-absolute top-50 translate-middle-y ms-3 text-muted">
+                            <i class="fas fa-pills"></i>
+                        </span>
+                        <input type="text" class="form-control ps-5 py-2" name="med_name" placeholder="Medication name" required style="border-radius: 12px; border: 1px solid #dee2e6;">
+                    </div>
                 </div>
                 <div class="col-md-5">
-                    <input type="text" class="form-control" name="med_time" placeholder="Time (e.g. 08:00 AM)" required>
+                    <div class="position-relative">
+                        <span class="position-absolute top-50 translate-middle-y ms-3 text-muted">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                        <input type="text" class="form-control ps-5 py-2" name="med_time" placeholder="Time (e.g. 08:00 AM)" required style="border-radius: 12px; border: 1px solid #dee2e6;">
+                    </div>
+                    <div class="form-text ms-1 mt-1 text-muted" style="font-size: 0.8rem;">Enter time in 12-hour format</div>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary w-100" type="submit">
-                        <i class="fas fa-plus"></i> Add
+                <div class="col-md-2 mt-3 mt-md-0">
+                    <button class="btn btn-primary w-100" type="submit" style="padding: 10px 20px;">
+                        <i class="fas fa-plus me-1"></i> Add
                     </button>
                 </div>
-            </div>
-            <div class="form-text mt-2">
-                Enter time in 12-hour format (e.g., 08:00 AM, 03:30 PM)
             </div>
         </form>
         
@@ -45,23 +53,21 @@
         {% if medications %}
             <div class="medications-timeline">
                 {% for med in medications %}
-                    <div class="card mb-3 medication-item">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="med-icon">
-                                <i class="fas fa-pills"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="card-title mb-1">{{ med.name }}</h6>
-                                <p class="card-text text-muted small mb-0">{{ med.time }}</p>
-                            </div>
-                            <form method="POST" action="{{ url_for('medications') }}" class="m-0">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="med_id" value="{{ med.id }}">
-                                <button type="submit" class="btn btn-outline-danger rounded-circle p-0" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-trash fa-sm"></i>
-                                </button>
-                            </form>
+                    <div class="medication-item border d-flex align-items-center shadow-sm" style="background-color: var(--card-bg); border-radius: 16px;">
+                        <div class="med-icon rounded-circle d-flex align-items-center justify-content-center" style="background: rgba(99, 102, 241, 0.1); color: var(--primary-color);">
+                            <i class="fas fa-pills"></i>
                         </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold text-dark">{{ med.name }}</h6>
+                            <p class="text-muted small mb-0"><i class="far fa-clock me-1"></i>{{ med.time }}</p>
+                        </div>
+                        <form method="POST" action="{{ url_for('medications') }}" class="m-0 ms-2">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="med_id" value="{{ med.id }}">
+                            <button type="submit" class="btn btn-outline-danger border-0 rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; padding: 0;">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
                     </div>
                 {% endfor %}
             </div>
