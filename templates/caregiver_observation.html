@@ -91,6 +91,16 @@
         line-height: 1.2;
     }
     
+    @media (max-width: 767px) {
+        .slider-labels span:nth-child(2),
+        .slider-labels span:nth-child(4) {
+            display: none;
+        }
+        .slider-labels span {
+            font-size: 0.7rem;
+        }
+    }
+    
     .slider-value {
         display: inline-block;
         background: var(--primary-color, #4E7ADC);
