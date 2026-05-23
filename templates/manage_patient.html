@@ -3,103 +3,140 @@
 {% block title %}Manage Patient{% endblock %}
 
 {% block content %}
+<style>
+    .custom-pills .nav-link {
+        color: var(--dark-color);
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        background: transparent;
+        border: none;
+    }
+    .custom-pills .nav-link:hover {
+        background: rgba(0,0,0,0.04);
+    }
+    .custom-pills .nav-link.active {
+        background-color: white !important;
+        color: var(--primary-color) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        font-weight: 600;
+    }
+    .task-item-modern {
+        background: white;
+        border: 1px solid #eaeaea;
+        border-radius: 16px;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        transition: all 0.2s ease;
+    }
+    .task-item-modern:hover {
+        box-shadow: var(--shadow-sm);
+        border-color: #ddd;
+    }
+</style>
+
 <div class="row mb-4">
     <div class="col">
-        <div class="d-flex align-items-center">
-            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary me-3">
-                <i class="fas fa-arrow-left"></i> Back
+        <div class="d-flex align-items-center mb-2">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary btn-sm me-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; padding: 0;">
+                <i class="fas fa-arrow-left"></i>
             </a>
-            <h1 class="mb-0">Manage: {{ patient.name }}</h1>
+            <h2 class="mb-0 fw-bold">Manage: {{ patient.name }}</h2>
         </div>
-        <p class="text-muted">{{ patient.email }}</p>
+        <p class="text-muted ms-5 ps-1">{{ patient.email }}</p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-12 mb-4">
-        <div class="card">
-            <div class="card-header bg-light">
-                <ul class="nav nav-tabs card-header-tabs" id="patientTabs" role="tablist">
+        <div class="card border-0 shadow-sm" style="border-radius: 20px;">
+            <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
+                <ul class="nav custom-pills" id="patientTabs" role="tablist" style="background: #f4f5f7; padding: 6px; border-radius: 16px; display: inline-flex; overflow-x: auto; flex-wrap: nowrap; max-width: 100%;">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
-                            <i class="fas fa-info-circle me-1"></i> Personal Info
+                            <i class="fas fa-info-circle me-2 text-muted"></i> Personal Info
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab" aria-controls="tasks" aria-selected="false">
-                            <i class="fas fa-tasks me-1"></i> Tasks
+                            <i class="fas fa-tasks me-2 text-muted"></i> Tasks
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="medications-tab" data-bs-toggle="tab" data-bs-target="#medications" type="button" role="tab" aria-controls="medications" aria-selected="false">
-                            <i class="fas fa-pills me-1"></i> Medications
+                            <i class="fas fa-pills me-2 text-muted"></i> Medications
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab" aria-controls="notes" aria-selected="false">
-                            <i class="fas fa-sticky-note me-1"></i> Notes
+                            <i class="far fa-sticky-note me-2 text-muted"></i> Notes
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="progress-tab" data-bs-toggle="tab" data-bs-target="#progress" type="button" role="tab" aria-controls="progress" aria-selected="false">
-                            <i class="fas fa-chart-line me-1"></i> Progress & MMSE
+                            <i class="fas fa-chart-line me-2 text-muted"></i> Progress & MMSE
                         </button>
                     </li>
                 </ul>
             </div>
-            <div class="card-body">
+            <div class="card-body p-4 pt-4 mt-2">
                 <div class="tab-content" id="patientTabContent">
                     <!-- Personal Info Tab -->
                     <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
-                        <h4 class="mb-3">Personal Information</h4>
-                        <p class="text-muted mb-4">Update the patient's personal information to improve AI Assistant responses and personalized care.</p>
+                        <div class="mb-4">
+                            <h4 class="fw-bold mb-2">Personal Information</h4>
+                            <p class="text-muted">Update the patient's personal information to improve AI Assistant responses and personalized care.</p>
+                        </div>
                         
                         <form action="{{ url_for('update_patient_info', patient_id=patient._id) }}" method="POST">
-                            <div class="mb-3">
-                                <label for="personal_info" class="form-label">Personal Information</label>
-                                <textarea class="form-control" id="personal_info" name="personal_info" rows="6" placeholder="Enter patient's personal information, background, and preferences">{{ patient.personal_info }}</textarea>
-                                <div class="form-text">Include details like birth date, family members, hobbies, preferred routines, and important memories.</div>
+                            <div class="mb-4">
+                                <textarea class="form-control p-4 fs-5" id="personal_info" name="personal_info" rows="5" placeholder="I am a person who needs memory care assistance. Include details like birth date, family members, hobbies, preferred routines, and important memories." style="border-radius: 16px; border: 1px solid #eaeaea; background: #fafafa; min-height: 150px; resize: none;">{{ patient.personal_info }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-1"></i> Update Information
+                            <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
+                                <i class="fas fa-save me-2"></i> Save Information
                             </button>
                         </form>
                     </div>
                     
                     <!-- Tasks Tab -->
                     <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="mb-0">Tasks</h4>
+                        <div class="mb-4">
+                            <h4 class="fw-bold mb-3">Tasks</h4>
                         </div>
                         
                         <form action="{{ url_for('add_patient_task', patient_id=patient._id) }}" method="POST" class="mb-4">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="task_text" placeholder="Add a new task" required>
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-plus me-1"></i> Add Task
+                            <div class="position-relative">
+                                <input type="text" class="form-control p-3 fs-5" name="task_text" placeholder="Add a new task" required style="border-radius: 12px; border: 1px solid #eaeaea;">
+                                <button class="btn btn-primary position-absolute top-50 translate-middle-y end-0 me-2 rounded-circle" type="submit" style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-arrow-up"></i>
                                 </button>
                             </div>
                         </form>
                         
-                        <div class="list-group mb-4">
+                        <div class="tasks-list">
                             {% if tasks %}
                                 {% for task in tasks %}
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div>
+                                    <div class="task-item-modern d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center">
                                             {% if task.completed %}
-                                                <i class="fas fa-check-circle text-success me-2"></i>
-                                                <span class="text-muted"><del>{{ task.text }}</del></span>
+                                                <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                                                <span class="text-muted text-decoration-line-through fs-5">{{ task.text }}</span>
                                             {% else %}
-                                                <i class="far fa-circle me-2"></i>
-                                                <span>{{ task.text }}</span>
+                                                <i class="far fa-circle text-dark fs-4 me-3"></i>
+                                                <span class="text-dark fs-5">{{ task.text }}</span>
                                             {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <div class="text-center py-4 text-muted">
-                                    <i class="fas fa-tasks fa-2x mb-2"></i>
-                                    <p>No tasks added yet</p>
+                                <div class="text-center py-5 text-muted">
+                                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-tasks fa-2x"></i>
+                                    </div>
+                                    <h5>No tasks added yet</h5>
+                                    <p>Tasks you assign will appear here</p>
                                 </div>
                             {% endif %}
                         </div>
@@ -107,41 +144,54 @@
                     
                     <!-- Medications Tab -->
                     <div class="tab-pane fade" id="medications" role="tabpanel" aria-labelledby="medications-tab">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="mb-0">Medications</h4>
+                        <div class="mb-4">
+                            <h4 class="fw-bold mb-3">Medications</h4>
                         </div>
                         
-                        <form action="{{ url_for('add_patient_medication', patient_id=patient._id) }}" method="POST" class="mb-4">
-                            <div class="row">
-                                <div class="col">
-                                    <input type="text" class="form-control" name="med_name" placeholder="Medication name" required>
+                        <form action="{{ url_for('add_patient_medication', patient_id=patient._id) }}" method="POST" class="mb-5">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-5">
+                                    <div class="position-relative">
+                                        <span class="position-absolute top-50 translate-middle-y ms-3 text-muted"><i class="fas fa-pills"></i></span>
+                                        <input type="text" class="form-control ps-5 py-3 fs-5" name="med_name" placeholder="Medication name" required style="border-radius: 12px; border: 1px solid #eaeaea;">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" name="med_time" placeholder="Time (e.g. 08:00 AM)" required>
+                                <div class="col-md-5">
+                                    <div class="position-relative">
+                                        <span class="position-absolute top-50 translate-middle-y ms-3 text-muted"><i class="fas fa-clock"></i></span>
+                                        <input type="text" class="form-control ps-5 py-3 fs-5" name="med_time" placeholder="Time (e.g. 08:00 AM)" required style="border-radius: 12px; border: 1px solid #eaeaea;">
+                                    </div>
                                 </div>
-                                <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary">
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100 py-3" style="border-radius: 12px;">
                                         <i class="fas fa-plus me-1"></i> Add
                                     </button>
                                 </div>
                             </div>
                         </form>
                         
-                        <div class="list-group mb-4">
+                        <div class="medications-list">
                             {% if medications %}
                                 {% for med in medications %}
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <i class="fas fa-prescription-bottle-alt text-primary me-2"></i>
-                                            <strong>{{ med.name }}</strong>
-                                            <span class="text-muted ms-2">{{ med.time }}</span>
+                                    <div class="task-item-modern d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; background: rgba(99,102,241,0.1); color: var(--primary-color);">
+                                                <i class="fas fa-prescription-bottle-alt fs-4"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1 fw-bold fs-5 text-dark">{{ med.name }}</h6>
+                                                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ med.time }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <div class="text-center py-4 text-muted">
-                                    <i class="fas fa-prescription-bottle fa-2x mb-2"></i>
-                                    <p>No medications added yet</p>
+                                <div class="text-center py-5 text-muted">
+                                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-prescription-bottle fa-2x"></i>
+                                    </div>
+                                    <h5>No medications added yet</h5>
+                                    <p>Keep track of the patient's schedule here</p>
                                 </div>
                             {% endif %}
                         </div>
@@ -149,16 +199,16 @@
                     
                     <!-- Notes Tab -->
                     <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="mb-0">Notes</h4>
+                        <div class="mb-4">
+                            <h4 class="fw-bold mb-3">Clinical Notes</h4>
                         </div>
                         
                         <form action="{{ url_for('update_patient_notes', patient_id=patient._id) }}" method="POST">
-                            <div class="mb-3">
-                                <textarea class="form-control" id="content" name="content" rows="10" placeholder="Enter notes about the patient">{{ notes_content }}</textarea>
+                            <div class="mb-4">
+                                <textarea class="form-control p-4 fs-5" id="content" name="content" rows="10" placeholder="Enter clinical notes, observations, and care updates about the patient..." style="border-radius: 16px; border: 1px solid #eaeaea; background: #fafafa; min-height: 250px; resize: none;">{{ notes_content }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-1"></i> Save Notes
+                            <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
+                                <i class="fas fa-save me-2"></i> Save Notes
                             </button>
                         </form>
                     </div>
@@ -166,47 +216,47 @@
                     <!-- Progress & MMSE Tab -->
                     <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="mb-0">Cognitive Progress Tracking</h4>
+                            <h4 class="mb-0 fw-bold">Cognitive Progress</h4>
                             {% if severity_data %}
-                            <span class="badge bg-{% if severity_data.get('severity_level') == 'mild' %}success{% elif severity_data.get('severity_level') == 'moderate' %}warning{% else %}danger{% endif %} fs-6">
-                                Current Status: {{ severity_data.get('severity_level', 'Unknown')|title }} ({{ severity_data.get('ui_profile', 'N/A') }})
+                            <span class="badge bg-{% if severity_data.get('severity_level') == 'mild' %}success{% elif severity_data.get('severity_level') == 'moderate' %}warning{% else %}danger{% endif %} fs-6 px-3 py-2 rounded-pill shadow-sm">
+                                Status: {{ severity_data.get('severity_level', 'Unknown')|title }} ({{ severity_data.get('ui_profile', 'N/A') }})
                             </span>
                             {% endif %}
                         </div>
                         
                         {% if progress_data %}
-                            <div class="row mb-4">
-                                <div class="col-md-3">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <h6 class="text-muted">Latest Score</h6>
-                                            <h2 class="mb-0">{{ progress_data.latest_score }}/30</h2>
+                            <div class="row mb-5 g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="card text-center border-0 shadow-sm h-100" style="border-radius: 16px; background: #fafafa;">
+                                        <div class="card-body p-4">
+                                            <h6 class="text-muted mb-2">Latest Score</h6>
+                                            <h2 class="mb-0 fw-bold text-dark">{{ progress_data.latest_score }}<span class="fs-5 text-muted">/30</span></h2>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <h6 class="text-muted">Previous Score</h6>
-                                            <h2 class="mb-0">{{ progress_data.previous_score }}/30</h2>
+                                <div class="col-6 col-md-3">
+                                    <div class="card text-center border-0 shadow-sm h-100" style="border-radius: 16px; background: #fafafa;">
+                                        <div class="card-body p-4">
+                                            <h6 class="text-muted mb-2">Previous Score</h6>
+                                            <h2 class="mb-0 fw-bold text-dark">{{ progress_data.previous_score }}<span class="fs-5 text-muted">/30</span></h2>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <h6 class="text-muted">Change</h6>
-                                            <h2 class="mb-0 {% if progress_data.improvement > 0 %}text-success{% elif progress_data.improvement < 0 %}text-danger{% endif %}">
+                                <div class="col-6 col-md-3">
+                                    <div class="card text-center border-0 shadow-sm h-100" style="border-radius: 16px; background: #fafafa;">
+                                        <div class="card-body p-4">
+                                            <h6 class="text-muted mb-2">Point Change</h6>
+                                            <h2 class="mb-0 fw-bold {% if progress_data.improvement > 0 %}text-success{% elif progress_data.improvement < 0 %}text-danger{% endif %}">
                                                 {% if progress_data.improvement > 0 %}+{% endif %}{{ progress_data.improvement }}
                                             </h2>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <h6 class="text-muted">Improvement</h6>
-                                            <h2 class="mb-0 {% if progress_data.improvement_pct > 0 %}text-success{% elif progress_data.improvement_pct < 0 %}text-danger{% endif %}">
+                                <div class="col-6 col-md-3">
+                                    <div class="card text-center border-0 shadow-sm h-100" style="border-radius: 16px; background: #fafafa;">
+                                        <div class="card-body p-4">
+                                            <h6 class="text-muted mb-2">Improvement</h6>
+                                            <h2 class="mb-0 fw-bold {% if progress_data.improvement_pct > 0 %}text-success{% elif progress_data.improvement_pct < 0 %}text-danger{% endif %}">
                                                 {% if progress_data.improvement_pct > 0 %}+{% endif %}{{ "%.1f"|format(progress_data.improvement_pct) }}%
                                             </h2>
                                         </div>
