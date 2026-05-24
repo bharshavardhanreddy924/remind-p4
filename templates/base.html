@@ -179,6 +179,31 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/pwa-install.js') }}"></script>
     <script src="{{ url_for('static', filename='js/voice-navigation.js') }}"></script>
+    {% if session.user_id and session.user_type != 'caretaker' %}
+    <script>
+        // Location tracking for patients
+        function updateLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    fetch('/api/location/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        })
+                    }).catch(err => console.error("Error updating location:", err));
+                });
+            }
+        }
+        
+        // Update immediately and then every 5 minutes
+        updateLocation();
+        setInterval(updateLocation, 300000);
+    </script>
+    {% endif %}
     {% block scripts %}{% endblock %}
 </body>
 </html>

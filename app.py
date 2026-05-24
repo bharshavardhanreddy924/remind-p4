@@ -38,7 +38,7 @@ def add_pwa_headers(response):
     response.headers['X-Frame-Options'] = 'DENY'
     response.headers['X-XSS-Protection'] = '1; mode=block'
     response.headers['Referrer-Policy'] = 'no-referrer-when-downgrade'
-    response.headers['Permissions-Policy'] = 'geolocation=(), camera=()'
+    response.headers['Permissions-Policy'] = 'geolocation=(self), camera=()'
     
     # Disable browser caching so logged-out users can't click "back" into auth pages
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0'
@@ -1696,6 +1696,56 @@ def update_patient_notes(patient_id):
     except Exception as e:
         flash(f'Error: {str(e)}', 'danger')
         return redirect(url_for('manage_patient', patient_id=patient_id))
+
+# Location tracking routes
+@app.route('/api/location/update', methods=['POST'])
+def update_location():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not logged in'}), 401
+    
+    if not check_db_connection() or db is None:
+        return jsonify({'success': False, 'message': 'Database error'}), 500
+        
+    data = request.json
+    if not data or 'latitude' not in data or 'longitude' not in data:
+        return jsonify({'success': False, 'message': 'Invalid data'}), 400
+        
+    user_id = ObjectId(session['user_id'])
+    
+    db.users.update_one(
+        {'_id': user_id},
+        {'$set': {
+            'last_location': {
+                'latitude': data['latitude'],
+                'longitude': data['longitude'],
+                'timestamp': datetime.now()
+            }
+        }}
+    )
+    
+    return jsonify({'success': True})
+
+@app.route('/api/location/<patient_id>')
+def get_patient_location(patient_id):
+    if 'user_id' not in session or session.get('user_type') != 'caretaker':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 401
+        
+    if not check_db_connection() or db is None:
+        return jsonify({'success': False, 'message': 'Database error'}), 500
+        
+    try:
+        patient = db.users.find_one({'_id': ObjectId(patient_id)})
+        if not patient or 'last_location' not in patient:
+            return jsonify({'success': False, 'message': 'No location data found'}), 404
+            
+        location = patient['last_location']
+        # Convert timestamp to string if it's a datetime object
+        if isinstance(location.get('timestamp'), datetime):
+            location['timestamp'] = location['timestamp'].isoformat()
+            
+        return jsonify({'success': True, 'location': location})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 # Error handlers
 @app.errorhandler(500)
