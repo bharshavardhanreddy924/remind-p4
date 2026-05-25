@@ -64,8 +64,11 @@
     <div class="chat-input-fixed">
         <div class="d-flex">
             <input type="text" id="user-input" class="form-control" placeholder="Message AI..." autocomplete="off">
-            <button type="button" class="btn btn-primary voice-input-button" id="voice-input-button">
+            <button type="button" class="btn btn-primary voice-input-button" id="voice-input-button" title="Voice Input">
                 <i class="fas fa-microphone"></i>
+            </button>
+            <button type="button" class="btn btn-primary send-button" id="send-button" title="Send Message">
+                <i class="fas fa-paper-plane"></i>
             </button>
         </div>
     </div>
@@ -229,6 +232,16 @@
                 sendMessage();
             }
         });
+
+        // Send button click handler
+        const sendButton = document.getElementById('send-button');
+        if (sendButton) {
+            sendButton.addEventListener('click', function() {
+                if (!isListening) {
+                    sendMessage();
+                }
+            });
+        }
         
         // Store conversation history in memory
         let conversationHistory = [];
